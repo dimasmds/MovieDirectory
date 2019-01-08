@@ -1,4 +1,4 @@
-package com.riotfallen.moviedirectory.core.model;
+package com.riotfallen.moviedirectory.core.model.movie;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

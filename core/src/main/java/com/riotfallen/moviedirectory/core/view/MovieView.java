@@ -1,6 +1,6 @@
 package com.riotfallen.moviedirectory.core.view;
 
-import com.riotfallen.moviedirectory.core.model.MovieResponse;
+import com.riotfallen.moviedirectory.core.model.movie.MovieResponse;
 
 public interface MovieView {
     void showMovieLoading();

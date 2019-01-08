@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Movie Directory</string>
+    <string name="search_movie">Search Movie</string>
+    <string name="search">Search</string>
+    <string name="dummy_movie">Spiderman Jungleland</string>
+    <string name="dummy_desc">Lorem ipsum dolor sit amet lala lili agak aneh gimana gitu</string>
+    <string name="thumbnail">thumbnail</string>
 </resources>

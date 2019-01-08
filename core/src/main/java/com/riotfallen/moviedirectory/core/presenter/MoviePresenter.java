@@ -1,9 +1,11 @@
 package com.riotfallen.moviedirectory.core.presenter;
 
+import android.support.annotation.NonNull;
+
 import com.riotfallen.moviedirectory.core.BuildConfig;
 import com.riotfallen.moviedirectory.core.api.APIRepository;
 import com.riotfallen.moviedirectory.core.api.Client;
-import com.riotfallen.moviedirectory.core.model.MovieResponse;
+import com.riotfallen.moviedirectory.core.model.movie.MovieResponse;
 import com.riotfallen.moviedirectory.core.utils.Constant;
 import com.riotfallen.moviedirectory.core.view.MovieView;
 
@@ -22,10 +24,10 @@ public class MoviePresenter {
     public void searchMovie(String query, Integer page){
         view.showMovieLoading();
         APIRepository apiRepository = Client.getClient().create(APIRepository.class);
-        Call<MovieResponse> call = apiRepository.getMovie(BuildConfig.API_KEY, Constant.DEFAULT_MOVIE_LANGUAGE, query, page);
+        Call<MovieResponse> call = apiRepository.serachMovie(BuildConfig.API_KEY, Constant.DEFAULT_MOVIE_LANGUAGE, query, page);
         call.enqueue(new Callback<MovieResponse>() {
             @Override
-            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+            public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
                 if(response.isSuccessful()){
                     view.showMovieData(response.body());
                     view.hideMovieLoading();
@@ -36,7 +38,7 @@ public class MoviePresenter {
             }
 
             @Override
-            public void onFailure(Call<MovieResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<MovieResponse> call, @NonNull Throwable t) {
                 view.showMovieError(t.getMessage());
                 view.hideMovieLoading();
             }
@@ -46,10 +48,10 @@ public class MoviePresenter {
     public void getMovie(Integer page){
         view.showMovieLoading();
         APIRepository apiRepository = Client.getClient().create(APIRepository.class);
-        Call<MovieResponse> call = apiRepository.getMovie(BuildConfig.API_KEY, Constant.DEFAULT_MOVIE_LANGUAGE, Constant.DEFAULT_SORT_MOVIE, page);
+        Call<MovieResponse> call = apiRepository.getMovies(BuildConfig.API_KEY, Constant.DEFAULT_MOVIE_LANGUAGE, Constant.DEFAULT_SORT_MOVIE, page);
         call.enqueue(new Callback<MovieResponse>() {
             @Override
-            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+            public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
                 if(response.isSuccessful()){
                     view.showMovieData(response.body());
                     view.hideMovieLoading();
@@ -60,7 +62,7 @@ public class MoviePresenter {
             }
 
             @Override
-            public void onFailure(Call<MovieResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<MovieResponse> call, @NonNull Throwable t) {
                 view.showMovieError(t.getMessage());
                 view.hideMovieLoading();
             }
