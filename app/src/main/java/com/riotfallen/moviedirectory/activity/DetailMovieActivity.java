@@ -97,6 +97,7 @@ public class DetailMovieActivity extends AppCompatActivity implements MovieView 
         TextView textViewRating = findViewById(R.id.detailActivityTextViewRating);
         TextView textViewDuration = findViewById(R.id.detailActivityTextViewDuration);
         TextView textViewDescription = findViewById(R.id.detailActivityTextViewOverview);
+        TextView textViewLanguage = findViewById(R.id.detailActivityTextViewLanguage);
         ImageView imageViewThumbnail = findViewById(R.id.detailActivityThumbnail);
 
         LinearLayout linearLayoutCategory = findViewById(R.id.detailActivityLinearLayoutCategory);
@@ -112,7 +113,15 @@ public class DetailMovieActivity extends AppCompatActivity implements MovieView 
         textViewDescription.setText(data.getOverview());
         textViewDuration.setText(data.getRuntime() + " Minutes");
 
+
         Picasso.get().load(BuildConfig.IMAGE_BASE_URL + data.getPosterPath()).fit().centerCrop().into(imageViewThumbnail);
+
+        for(int i = 0; i < data.getSpokenLanguages().size(); i++){
+            if(i == 0)
+                textViewLanguage.setText(data.getSpokenLanguages().get(i).getName());
+            else
+                textViewLanguage.setText(textViewLanguage.getText() + ", " + data.getSpokenLanguages().get(i).getName());
+        }
 
         for (int i = 0; i < data.getGenres().size(); i++) {
             TextView category = new TextView(this);
