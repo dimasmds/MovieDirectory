@@ -23,32 +23,15 @@ public class MovieResponse {
         return page;
     }
 
-    public void setPage(Integer page) {
-        this.page = page;
-    }
-
     public Integer getTotalResults() {
         return totalResults;
-    }
-
-    public void setTotalResults(Integer totalResults) {
-        this.totalResults = totalResults;
     }
 
     public Integer getTotalPages() {
         return totalPages;
     }
 
-    public void setTotalPages(Integer totalPages) {
-        this.totalPages = totalPages;
-    }
-
     public List<Result> getResults() {
         return results;
     }
-
-    public void setResults(List<Result> results) {
-        this.results = results;
-    }
-
 }

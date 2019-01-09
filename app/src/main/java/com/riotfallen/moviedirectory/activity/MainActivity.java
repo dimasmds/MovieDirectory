@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.riotfallen.moviedirectory.R;
 import com.riotfallen.moviedirectory.adapter.MovieListAdapter;
+import com.riotfallen.moviedirectory.core.model.movie.Movie;
 import com.riotfallen.moviedirectory.core.model.movie.MovieResponse;
 import com.riotfallen.moviedirectory.core.model.movie.Result;
 import com.riotfallen.moviedirectory.core.presenter.MoviePresenter;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements MovieView {
         movies = new ArrayList<>();
 
         moviePresenter = new MoviePresenter(this);
-        moviePresenter.getMovie(1);
+        moviePresenter.getMovies(1);
 
         editTextSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -83,10 +84,13 @@ public class MainActivity extends AppCompatActivity implements MovieView {
     }
 
     @Override
-    public void showMovieData(MovieResponse data) {
+    public void showMovies(MovieResponse data) {
         movies.addAll(data.getResults());
         MovieListAdapter movieListAdapter = new MovieListAdapter(this, movies);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL, false));
         recyclerView.setAdapter(movieListAdapter);
     }
+
+    @Override
+    public void showMovie(Movie data) {}
 }

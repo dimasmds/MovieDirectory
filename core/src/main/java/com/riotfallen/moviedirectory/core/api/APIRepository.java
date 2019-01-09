@@ -24,5 +24,7 @@ public interface APIRepository {
 
 
     @GET("movie/{movie_id}")
-    Call<Movie> getMovie(@Path("movie_id") String movieId);
+    Call<Movie> getMovie(@Path("movie_id") Integer movieId,
+                         @Query("api_key") String apiKey,
+                         @Query("language") String language);
 }

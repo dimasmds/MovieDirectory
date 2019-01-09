@@ -3,6 +3,19 @@
     <string name="search_movie">Search Movie</string>
     <string name="search">Search</string>
     <string name="dummy_movie">Spiderman Jungleland</string>
-    <string name="dummy_desc">Lorem ipsum dolor sit amet lala lili agak aneh gimana gitu</string>
+    <string name="dummy_desc">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</string>
     <string name="thumbnail">thumbnail</string>
+    <string name="thumbnail_movie">Thumbnail Movie</string>
+    <string name="category">Category</string>
+    <string name="dummy_years">1999</string>
+    <string name="dummy_production">Author Name</string>
+    <string name="dummy_movie_title">Title Movie Here</string>
+    <string name="imdb">IMDB:</string>
+    <string name="rotten_tommatoes">Rotten🍅:</string>
+    <string name="dummy_imdb">8.9</string>
+    <string name="_87">87%</string>
+    <string name="overview">Overview</string>
+    <string name="rating">Rating</string>
+    <string name="duration">Duration:</string>
+    <string name="language">Language</string>
 </resources>

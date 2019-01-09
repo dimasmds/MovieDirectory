@@ -24,7 +24,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-
     // Support Version
     implementation "com.android.support:appcompat-v7:$support_version"
     implementation "com.android.support:exifinterface:$support_version"
