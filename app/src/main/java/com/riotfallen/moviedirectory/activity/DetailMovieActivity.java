@@ -59,7 +59,7 @@ public class DetailMovieActivity extends AppCompatActivity implements MovieView 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 break;
@@ -86,8 +86,7 @@ public class DetailMovieActivity extends AppCompatActivity implements MovieView 
     }
 
     @Override
-    public void showMovies(MovieResponse data) {
-    }
+    public void showMovies(MovieResponse data) {}
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -104,7 +103,7 @@ public class DetailMovieActivity extends AppCompatActivity implements MovieView 
 
         textViewTitle.setText(data.getTitle());
         textViewYearMovie.setText(data.getReleaseDate());
-        if(data.getProductionCompanies().size() != 0){
+        if (data.getProductionCompanies().size() != 0) {
             textViewProduction.setText(data.getProductionCompanies().get(0).getName());
         } else {
             textViewProduction.setText("Unknown");
