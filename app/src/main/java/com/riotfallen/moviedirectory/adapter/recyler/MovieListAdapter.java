@@ -1,4 +1,4 @@
-package com.riotfallen.moviedirectory.adapter;
+package com.riotfallen.moviedirectory.adapter.recyler;
 
 import android.content.Context;
 import android.content.Intent;
@@ -59,7 +59,9 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
         private ImageView imageViewThumb = itemView.findViewById(R.id.rimImageViewThumbnail);
         private TextView textViewTitle = itemView.findViewById(R.id.rimTextViewTitle);
-        private TextView textViewDesc = itemView.findViewById(R.id.rimTextViewDescription);
+        private TextView textViewLanguage = itemView.findViewById(R.id.rimTexTViewLanguage);
+        private TextView textViewRating = itemView.findViewById(R.id.rimTextViewRating);
+        private TextView textViewVote = itemView.findViewById(R.id.rimTextViewVoting);
 
         MovieListViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,8 +69,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
         void BindItem(Result movie){
             textViewTitle.setText(movie.getTitle());
-            textViewDesc.setText(movie.getOverview());
-            Picasso.get().load(BuildConfig.IMAGE_BASE_URL + movie.getPosterPath()).fit().centerCrop().into(imageViewThumb);
+            textViewRating.setText(String.format(context.getResources().getString(R.string.dummy_rating),movie.getVoteAverage()));
+            textViewVote.setText(String.format(context.getResources().getString(R.string.voting), movie.getVoteCount()));
+            Picasso.get().load(BuildConfig.IMAGE_BASE_URL + movie.getBackdropPath()).fit().centerCrop().into(imageViewThumb);
+            textViewLanguage.setText(movie.getOverview());
         }
 
     }

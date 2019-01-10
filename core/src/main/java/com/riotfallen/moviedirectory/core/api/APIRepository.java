@@ -16,12 +16,15 @@ public interface APIRepository {
                                     @Query("query") String query,
                                     @Query("page") Integer page);
 
-    @GET("discover/movie")
-    Call<MovieResponse> getMovies(@Query("api_key") String apiKey,
-                                  @Query("language") String language,
-                                  @Query("sort_by") String sortBy,
-                                  @Query("page") Integer page);
+    @GET("movie/now_playing")
+    Call<MovieResponse> getNowPlayingMovies(@Query("api_key") String apiKey,
+                                            @Query("language") String language,
+                                            @Query("page") Integer page);
 
+    @GET("movie/upcoming")
+    Call<MovieResponse> getUpcomingMovies(@Query("api_key") String apiKey,
+                                            @Query("language") String language,
+                                            @Query("page") Integer page);
 
     @GET("movie/{movie_id}")
     Call<Movie> getMovie(@Path("movie_id") Integer movieId,

@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#1c313a</color>
     <color name="colorAccent">#2e7d32</color>
 
-    <color name="searchTextHint">#aaa</color>
-    <color name="searchText">#fff</color>
+    <color name="textColorOnPrimary">#ffffff</color>
+    <color name="textColorOnSecondary">#dddddd</color>
+    <color name="textRegularColor">#181818</color>
+
+    <color name="alhpa">#8b000000</color>
 </resources>

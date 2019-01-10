@@ -46,10 +46,34 @@ public class MoviePresenter {
         });
     }
 
-    public void getMovies(Integer page){
+    public void getNowPlayingMovies(Integer page){
         view.showMovieLoading();
         APIRepository apiRepository = Client.getClient().create(APIRepository.class);
-        Call<MovieResponse> call = apiRepository.getMovies(BuildConfig.API_KEY, Constant.DEFAULT_MOVIE_LANGUAGE, Constant.DEFAULT_SORT_MOVIE, page);
+        Call<MovieResponse> call = apiRepository.getNowPlayingMovies(BuildConfig.API_KEY, Constant.DEFAULT_MOVIE_LANGUAGE, page);
+        call.enqueue(new Callback<MovieResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
+                if(response.isSuccessful()){
+                    view.showMovies(response.body());
+                    view.hideMovieLoading();
+                } else {
+                    view.showMovieError(response.message());
+                    view.hideMovieLoading();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MovieResponse> call, @NonNull Throwable t) {
+                view.showMovieError(t.getMessage());
+                view.hideMovieLoading();
+            }
+        });
+    }
+
+    public void getUpcomingMovies(Integer page){
+        view.showMovieLoading();
+        APIRepository apiRepository = Client.getClient().create(APIRepository.class);
+        Call<MovieResponse> call = apiRepository.getUpcomingMovies(BuildConfig.API_KEY, Constant.DEFAULT_MOVIE_LANGUAGE, page);
         call.enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {

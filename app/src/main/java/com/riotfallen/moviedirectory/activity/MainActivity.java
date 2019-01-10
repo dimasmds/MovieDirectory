@@ -1,38 +1,31 @@
 package com.riotfallen.moviedirectory.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.riotfallen.moviedirectory.R;
-import com.riotfallen.moviedirectory.adapter.MovieListAdapter;
-import com.riotfallen.moviedirectory.core.model.movie.Movie;
-import com.riotfallen.moviedirectory.core.model.movie.MovieResponse;
-import com.riotfallen.moviedirectory.core.model.movie.Result;
-import com.riotfallen.moviedirectory.core.presenter.MoviePresenter;
-import com.riotfallen.moviedirectory.core.view.MovieView;
+import com.riotfallen.moviedirectory.adapter.pager.MoviePagerAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements MovieView {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private RecyclerView recyclerView;
-    private ProgressBar progressBar;
-
-    private MoviePresenter moviePresenter;
-
-    private List<Result> movies;
+    private ViewPager viewPager;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,55 +35,88 @@ public class MainActivity extends AppCompatActivity implements MovieView {
         Toolbar toolbar = findViewById(R.id.mainActivityToolbar);
         setSupportActionBar(toolbar);
 
-        recyclerView = findViewById(R.id.mainActivityRecyclerView);
-        progressBar = findViewById(R.id.mainActivityProgressBar);
-        final EditText editTextSearch = findViewById(R.id.mainActivityEditTextSearch);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("");
 
-        movies = new ArrayList<>();
+        drawerLayout = findViewById(R.id.mainActivityDrawerLayout);
 
-        moviePresenter = new MoviePresenter(this);
-        moviePresenter.getMovies(1);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
 
-        editTextSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        TabLayout tabLayout = findViewById(R.id.mainActivityTabLayout);
+        viewPager = findViewById(R.id.mainActivityViewPager);
+        FloatingActionButton mainFab = findViewById(R.id.mainActivityFAB);
+        NavigationView navigationView = findViewById(R.id.mainActivityNavigationView);
+
+        navigationView.setNavigationItemSelectedListener(this);
+
+        mainFab.bringToFront();
+        mainFab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    movies.clear();
-                    String query = editTextSearch.getText().toString();
-                    moviePresenter.searchMovie(query, 1);
-                    return true;
-                }
-                return false;
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+            }
+        });
+
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.now_playing));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.upcoming));
+
+        MoviePagerAdapter pagerAdapter = new MoviePagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
             }
         });
     }
 
-    @Override
-    public void showMovieLoading() {
-        progressBar.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.INVISIBLE);
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     @Override
-    public void hideMovieLoading() {
-        progressBar.setVisibility(View.INVISIBLE);
-        recyclerView.setVisibility(View.VISIBLE);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuMainChangeLanguage:
+                Intent intent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
+                startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void showMovieError(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
 
     @Override
-    public void showMovies(MovieResponse data) {
-        movies.addAll(data.getResults());
-        MovieListAdapter movieListAdapter = new MovieListAdapter(this, movies);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL, false));
-        recyclerView.setAdapter(movieListAdapter);
-    }
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        drawerLayout.closeDrawer(GravityCompat.START);
 
-    @Override
-    public void showMovie(Movie data) {}
+        switch (menuItem.getItemId()) {
+            case R.id.menuNowPlaying:
+                viewPager.setCurrentItem(0);
+                break;
+            case R.id.menuUpcoming:
+                viewPager.setCurrentItem(1);
+                break;
+            case R.id.menuSearch:
+                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+                break;
+        }
+
+        return true;
+    }
 }
