@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.riotfallen.favoritemovie.R;
 import com.riotfallen.favoritemovie.adapter.FavoriteListAdapter;
@@ -49,21 +50,27 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
-        favoriteMovieArrayList = getItem(cursor);
-        FavoriteListAdapter favoriteListAdapter = new FavoriteListAdapter(this, favoriteMovieArrayList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL, false));
-        recyclerView.setAdapter(favoriteListAdapter);
+        try {
+            favoriteMovieArrayList = getItem(cursor);
+            FavoriteListAdapter favoriteListAdapter = new FavoriteListAdapter(this, favoriteMovieArrayList);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL, false));
+            recyclerView.setAdapter(favoriteListAdapter);
+        } catch (Exception e) {
+            Toast.makeText(this, "Mohon Install dulu App Movie Directory", Toast.LENGTH_LONG).show();
+            finish();
+        }
     }
 
     @Override
-    public void onLoaderReset(@NonNull Loader<Cursor> loader) {}
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+    }
 
-    private ArrayList<FavoriteMovie> getItem(Cursor cursor){
+    private ArrayList<FavoriteMovie> getItem(Cursor cursor) {
         ArrayList<FavoriteMovie> favoriteMovies = new ArrayList<>();
         cursor.moveToFirst();
         FavoriteMovie favoriteMovie;
-        if(cursor.getCount()>0){
-            do{
+        if (cursor.getCount() > 0) {
+            do {
                 favoriteMovie = new FavoriteMovie(cursor);
                 favoriteMovies.add(favoriteMovie);
                 cursor.moveToNext();
