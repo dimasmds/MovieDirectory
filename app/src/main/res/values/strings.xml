@@ -22,5 +22,17 @@
     <string name="icon_brand">Icon Brand</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
-    <string name="change_language">Change Language</string>
+    <string name="change_language">🇬🇧 \tChange Language</string>
+    <string name="favorite">Favorite</string>
+    <string name="favorited">Favorited</string>
+    <string name="message_fail_favorite">Failed adding to Favorite, Try Again</string>
+    <string name="message_fail_add_favorite">Failed to delete from favorite, try again !</string>
+    <string name="back_button">Back Button</string>
+    <string name="toolbar_background">Toolbar Background</string>
+    <string name="similar_poster">Similar Poster</string>
+    <string name="similar_message">You may also like</string>
+    <string name="message_similar_not_found">Similar not found</string>
+    <string name="play_video">Play Video</string>
+    <string name="toolbar_fade">toolbar fade</string>
+    <string name="favorite_button">Favorite Button</string>
 </resources>

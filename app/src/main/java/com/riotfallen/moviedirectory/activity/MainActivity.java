@@ -13,9 +13,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.riotfallen.moviedirectory.R;
 import com.riotfallen.moviedirectory.adapter.pager.MoviePagerAdapter;
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         viewPager = findViewById(R.id.mainActivityViewPager);
         FloatingActionButton mainFab = findViewById(R.id.mainActivityFAB);
         NavigationView navigationView = findViewById(R.id.mainActivityNavigationView);
+        TextView changeLanguage = findViewById(R.id.menuMainChangeLanguage);
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         tabLayout.addTab(tabLayout.newTab().setText(R.string.now_playing));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.upcoming));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.favorite));
 
         MoviePagerAdapter pagerAdapter = new MoviePagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
@@ -81,25 +83,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-    }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menuMainChangeLanguage:
+        changeLanguage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Intent intent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
                 startActivity(intent);
-        }
-        return super.onOptionsItemSelected(item);
+            }
+        });
     }
-
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -111,6 +103,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.menuUpcoming:
                 viewPager.setCurrentItem(1);
+                break;
+            case R.id.menuFavorite:
+                viewPager.setCurrentItem(2);
                 break;
             case R.id.menuSearch:
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));

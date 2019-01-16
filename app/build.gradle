@@ -11,6 +11,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "IMAGE_BASE_URL", "\"https://image.tmdb.org/t/p/w500/\""
+        buildConfigField "String", "VIDEO_BASE_URL", "\"https://www.youtube.com/watch?v=\""
 
     }
     buildTypes {

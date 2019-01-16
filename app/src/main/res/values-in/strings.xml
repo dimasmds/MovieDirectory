@@ -22,5 +22,17 @@
     <string name="icon_brand">Logo Merk</string>
     <string name="drawer_open">Buka</string>
     <string name="drawer_close">Tutup</string>
-    <string name="change_language">Ganti Bahasa</string>
+    <string name="change_language">🇮🇩 Ganti Bahasa</string>
+    <string name="favorite">Favorit</string>
+    <string name="favorited">Favorit</string>
+    <string name="message_fail_favorite">Gagal menambahkan ke favorit, coba lagi !</string>
+    <string name="message_fail_add_favorite">Gagal menghapus favorit, coba lagi !</string>
+    <string name="back_button">Tombol kembali</string>
+    <string name="toolbar_background">Toolbar Background</string>
+    <string name="similar_poster">Poster Serupa</string>
+    <string name="similar_message">Yang mungkin anda sukai</string>
+    <string name="message_similar_not_found">Tidak ditemukan film serupa</string>
+    <string name="play_video">Putar video</string>
+    <string name="toolbar_fade">toolbar fade</string>
+    <string name="favorite_button">Tombol Favorite</string>
 </resources>

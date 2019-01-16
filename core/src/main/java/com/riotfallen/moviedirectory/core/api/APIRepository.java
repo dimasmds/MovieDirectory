@@ -2,6 +2,8 @@ package com.riotfallen.moviedirectory.core.api;
 
 import com.riotfallen.moviedirectory.core.model.movie.Movie;
 import com.riotfallen.moviedirectory.core.model.movie.MovieResponse;
+import com.riotfallen.moviedirectory.core.model.similar.SimilarResponse;
+import com.riotfallen.moviedirectory.core.model.video.VideoResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -9,6 +11,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface APIRepository {
+
 
     @GET("search/movie")
     Call<MovieResponse> serachMovie(@Query("api_key") String apiKey,
@@ -30,4 +33,13 @@ public interface APIRepository {
     Call<Movie> getMovie(@Path("movie_id") Integer movieId,
                          @Query("api_key") String apiKey,
                          @Query("language") String language);
+
+    @GET("movie/{movie_id}/similar")
+    Call<SimilarResponse> getSimilar(@Path("movie_id") Integer movieId,
+                                     @Query("api_key") String apiKey,
+                                     @Query("page") Integer page);
+
+    @GET("movie/{movie_id}/videos")
+    Call<VideoResponse> getVideos(@Path("movie_id") Integer movieId,
+                                  @Query("api_key") String apiKey);
 }

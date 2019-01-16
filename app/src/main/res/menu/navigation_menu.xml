@@ -12,9 +12,16 @@
             android:id="@+id/menuUpcoming"
             android:icon="@drawable/ic_av_timer"
             android:title="@string/upcoming" />
+
+        <item
+            android:id="@+id/menuFavorite"
+            android:icon="@drawable/ic_favorite_border_black"
+            android:title="@string/favorite" />
+
         <item
             android:id="@+id/menuSearch"
             android:icon="@drawable/ic_search"
             android:title="@string/search" />
+
     </group>
 </menu>

@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menuAddToFavorite"
+        android:icon="@drawable/ic_favorite"
+        android:iconifiedByDefault="false"
+        android:title="@string/favorite"
+        app:showAsAction="ifRoom" />
+</menu>

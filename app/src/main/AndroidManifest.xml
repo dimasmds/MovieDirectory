@@ -19,7 +19,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.DetailMovieActivity" />
-        <activity android:name=".activity.SearchActivity"/>
+        <activity android:name=".activity.SearchActivity" />
+
+        <provider
+            android:name=".core.db.helper.DatabaseProvider"
+            android:authorities="com.riotfallen.moviedirectory.core"
+            android:exported="true"
+            android:readPermission="com.riotfallen.moviedirectory.core.READ_DATABASE"
+            android:writePermission="com.riotfallen.moviedirectory.core.WRITE_DATABASE" />
     </application>
 
 </manifest>

@@ -9,4 +9,5 @@
     <color name="textRegularColor">#181818</color>
 
     <color name="alhpa">#8b000000</color>
+    <color name="colorError">#ff7675</color>
 </resources>
