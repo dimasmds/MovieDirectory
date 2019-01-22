@@ -5,29 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingStart="16dp"
-    android:paddingTop="20dp"
-    android:paddingEnd="16dp"
     tools:context=".activity.SearchActivity">
 
-    <EditText
-        android:id="@+id/searchActivityEditText"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/bg_rounded_corner_white"
-        android:hint="@string/search_movie"
-        android:imeOptions="actionSearch"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:paddingStart="30dp"
-        android:paddingTop="20dp"
-        android:paddingEnd="30dp"
-        android:paddingBottom="20dp"
-        android:textColor="@color/textRegularColor"
-        android:textColorHint="@android:color/darker_gray"
-        app:layout_scrollFlags="snap|scroll|enterAlways"
-        tools:targetApi="o" />
+        app:cardCornerRadius="3dp"
+        app:cardElevation="3dp"
+        android:layout_margin="6dp">
+
+        <EditText
+            android:id="@+id/searchActivityEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:hint="@string/search_movie"
+            android:imeOptions="actionSearch"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:textSize="15sp"
+            android:padding="10dp"
+            android:textColor="@color/textRegularColor"
+            android:textColorHint="@android:color/darker_gray"
+            app:layout_scrollFlags="snap|scroll|enterAlways"
+            tools:targetApi="o" />
+    </android.support.v7.widget.CardView>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -37,6 +40,8 @@
             android:id="@+id/searchActivityRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="3dp"
+            android:clipToPadding="false"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <ProgressBar

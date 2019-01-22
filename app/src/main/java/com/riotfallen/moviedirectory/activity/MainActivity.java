@@ -48,10 +48,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TabLayout tabLayout = findViewById(R.id.mainActivityTabLayout);
         viewPager = findViewById(R.id.mainActivityViewPager);
         FloatingActionButton mainFab = findViewById(R.id.mainActivityFAB);
-        NavigationView navigationView = findViewById(R.id.mainActivityNavigationView);
+        final NavigationView navigationView = findViewById(R.id.mainActivityNavigationView);
         TextView changeLanguage = findViewById(R.id.menuMainChangeLanguage);
 
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.menuNowPlaying);
 
         mainFab.bringToFront();
         mainFab.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +74,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                switch (viewPager.getCurrentItem()){
+                    case 0:
+                        navigationView.setCheckedItem(R.id.menuNowPlaying);
+                        break;
+                    case 1:
+                        navigationView.setCheckedItem(R.id.menuUpcoming);
+                        break;
+                    case 2:
+                        navigationView.setCheckedItem(R.id.menuFavorite);
+                }
             }
 
             @Override

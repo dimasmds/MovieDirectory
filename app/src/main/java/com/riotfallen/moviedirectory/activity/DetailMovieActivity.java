@@ -25,6 +25,7 @@ import com.riotfallen.moviedirectory.core.model.video.Video;
 import com.riotfallen.moviedirectory.core.presenter.FavoritePresenter;
 import com.riotfallen.moviedirectory.core.presenter.MoviePresenter;
 import com.riotfallen.moviedirectory.core.presenter.VideoPresenter;
+import com.riotfallen.moviedirectory.core.utils.DateUtils;
 import com.riotfallen.moviedirectory.core.view.FavoriteView;
 import com.riotfallen.moviedirectory.core.view.MovieView;
 import com.riotfallen.moviedirectory.core.view.VideoView;
@@ -160,7 +161,8 @@ public class DetailMovieActivity extends AppCompatActivity implements MovieView,
         LinearLayout linearLayoutCategory = findViewById(R.id.detailActivityLinearLayoutCategory);
 
         textViewTitle.setText(data.getTitle());
-        textViewYearMovie.setText(data.getReleaseDate());
+        textViewYearMovie.setText(new DateUtils().dateToString(data.getReleaseDate(),
+                "yyyy-mm-dd", "dd MMMM yyyy"));
         if (data.getProductionCompanies().size() != 0) {
             textViewProduction.setText(data.getProductionCompanies().get(0).getName());
         } else {
@@ -184,12 +186,12 @@ public class DetailMovieActivity extends AppCompatActivity implements MovieView,
         for (int i = 0; i < data.getGenres().size(); i++) {
             TextView category = new TextView(this);
 
-            ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
             );
 
-            ((LinearLayout.LayoutParams) params).setMarginEnd(10);
+            params.setMarginEnd(10);
 
             category.setLayoutParams(params);
             category.setTextColor(getResources().getColor(android.R.color.white));
@@ -198,10 +200,6 @@ public class DetailMovieActivity extends AppCompatActivity implements MovieView,
             category.setPadding(10, 0, 10, 0);
             category.setText(data.getGenres().get(i).getName());
             linearLayoutCategory.addView(category);
-
-            if (i == 2) {
-                break;
-            }
         }
 
         VideoPresenter videoPresenter = new VideoPresenter(this, this);

@@ -96,14 +96,20 @@ public class MovieListFragment extends Fragment implements MovieView, FavoriteVi
 
     @Override
     public void showMovieLoading() {
-        progressBar.setVisibility(View.VISIBLE);
+        if(!swipeRefreshLayout.isRefreshing()){
+            progressBar.setVisibility(View.VISIBLE);
+        }
         recyclerView.setVisibility(View.INVISIBLE);
 
     }
 
     @Override
     public void hideMovieLoading() {
-        progressBar.setVisibility(View.INVISIBLE);
+        if(!swipeRefreshLayout.isRefreshing()){
+            progressBar.setVisibility(View.INVISIBLE);
+        } else {
+            swipeRefreshLayout.setRefreshing(false);
+        }
         recyclerView.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setRefreshing(false);
     }
@@ -111,7 +117,9 @@ public class MovieListFragment extends Fragment implements MovieView, FavoriteVi
     @Override
     public void showMovieError(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-        swipeRefreshLayout.setRefreshing(false);
+        if(swipeRefreshLayout.isRefreshing()){
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override
