@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Binder;
-import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -17,7 +16,6 @@ import com.riotfallen.moviedirectory.core.db.model.FavoriteMovie;
 
 import java.util.concurrent.ExecutionException;
 
-import static android.content.ContentValues.TAG;
 import static com.riotfallen.moviedirectory.core.db.helper.DatabaseContract.CONTENT_URI;
 
 public class FavoriteStackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
