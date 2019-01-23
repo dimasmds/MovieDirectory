@@ -37,4 +37,8 @@
     <string name="favorite_button">Favorite Button</string>
     <string name="unknown">Unknown</string>
     <string name="d_minutes">%d Minutes</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="no_favorited_movies">No Favorited Movies</string>
+    <string name="my_favorite_movie">My Favorite Movie</string>
 </resources>

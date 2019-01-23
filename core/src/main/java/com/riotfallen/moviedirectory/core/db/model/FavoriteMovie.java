@@ -1,5 +1,15 @@
 package com.riotfallen.moviedirectory.core.db.model;
 
+import android.database.Cursor;
+import android.provider.BaseColumns;
+
+import static com.riotfallen.moviedirectory.core.db.helper.DatabaseContract.MovieColumn.COLUMN_MOVIE_BACKDROP;
+import static com.riotfallen.moviedirectory.core.db.helper.DatabaseContract.MovieColumn.COLUMN_MOVIE_ID;
+import static com.riotfallen.moviedirectory.core.db.helper.DatabaseContract.MovieColumn.COLUMN_MOVIE_OVERVIEW;
+import static com.riotfallen.moviedirectory.core.db.helper.DatabaseContract.MovieColumn.COLUMN_MOVIE_RATING;
+import static com.riotfallen.moviedirectory.core.db.helper.DatabaseContract.MovieColumn.COLUMN_MOVIE_TITLE;
+import static com.riotfallen.moviedirectory.core.db.helper.DatabaseContract.MovieColumn.COLUMN_MOVIE_VOTER;
+
 public class FavoriteMovie {
 
     private int id;
@@ -9,6 +19,19 @@ public class FavoriteMovie {
     private double movieRating;
     private int movieVoter;
     private String movieBackdrop;
+
+    public FavoriteMovie() {
+    }
+
+    public FavoriteMovie(Cursor cursor) {
+        this.id = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
+        this.movieId = cursor.getInt(cursor.getColumnIndex(COLUMN_MOVIE_ID));
+        this.movieTitle = cursor.getString(cursor.getColumnIndex(COLUMN_MOVIE_TITLE));
+        this.movieOverview = cursor.getString(cursor.getColumnIndex(COLUMN_MOVIE_OVERVIEW));
+        this.movieRating = cursor.getDouble(cursor.getColumnIndex(COLUMN_MOVIE_RATING));
+        this.movieVoter = cursor.getInt(cursor.getColumnIndex(COLUMN_MOVIE_VOTER));
+        this.movieBackdrop = cursor.getString(cursor.getColumnIndex(COLUMN_MOVIE_BACKDROP));
+    }
 
     public int getId() {
         return id;
@@ -65,4 +88,6 @@ public class FavoriteMovie {
     public void setMovieBackdrop(String movieBackdrop) {
         this.movieBackdrop = movieBackdrop;
     }
+
+
 }

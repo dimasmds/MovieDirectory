@@ -37,4 +37,8 @@
     <string name="favorite_button">Tombol Favorite</string>
     <string name="unknown">Tidak Dikenal</string>
     <string name="d_minutes">%d Menit</string>
+    <string name="appwidget_text">CONTOH</string>
+    <string name="add_widget">Tambah Widget</string>
+    <string name="no_favorited_movies">Tidak ada film favorit</string>
+    <string name="my_favorite_movie">Film Favoritku</string>
 </resources>
