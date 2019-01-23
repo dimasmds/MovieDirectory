@@ -1,5 +1,8 @@
 package com.riotfallen.moviedirectory.core.model.movie;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.riotfallen.moviedirectory.core.model.generic.Genre;
@@ -8,7 +11,7 @@ import com.riotfallen.moviedirectory.core.model.generic.SpokenLanguage;
 
 import java.util.List;
 
-public class Movie {
+public class Movie implements Parcelable {
 
     @SerializedName("backdrop_path")
     @Expose
@@ -24,7 +27,7 @@ public class Movie {
     private String overview;
     @SerializedName("poster_path")
     @Expose
-    private Object posterPath;
+    private String posterPath;
     @SerializedName("production_companies")
     @Expose
     private List<ProductionCompany> productionCompanies = null;
@@ -50,6 +53,7 @@ public class Movie {
     @Expose
     private Integer voteCount;
 
+
     public String getBackdropPath() {
         return backdropPath;
     }
@@ -66,7 +70,7 @@ public class Movie {
         return overview;
     }
 
-    public Object getPosterPath() {
+    public String getPosterPath() {
         return posterPath;
     }
 
@@ -102,21 +106,56 @@ public class Movie {
         return voteCount;
     }
 
-
-    public void setId(Integer id) {
-        this.id = id;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setOverview(String overview) {
-        this.overview = overview;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.backdropPath);
+        dest.writeTypedList(this.genres);
+        dest.writeValue(this.id);
+        dest.writeString(this.overview);
+        dest.writeString(this.posterPath);
+        dest.writeTypedList(this.productionCompanies);
+        dest.writeString(this.releaseDate);
+        dest.writeValue(this.runtime);
+        dest.writeTypedList(this.spokenLanguages);
+        dest.writeString(this.title);
+        dest.writeValue(this.video);
+        dest.writeValue(this.voteAverage);
+        dest.writeValue(this.voteCount);
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public Movie() {
     }
 
-    public void setVideo(Boolean video) {
-        this.video = video;
+    protected Movie(Parcel in) {
+        this.backdropPath = in.readString();
+        this.genres = in.createTypedArrayList(Genre.CREATOR);
+        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.overview = in.readString();
+        this.posterPath = in.readString();
+        this.productionCompanies = in.createTypedArrayList(ProductionCompany.CREATOR);
+        this.releaseDate = in.readString();
+        this.runtime = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.spokenLanguages = in.createTypedArrayList(SpokenLanguage.CREATOR);
+        this.title = in.readString();
+        this.video = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.voteAverage = (Double) in.readValue(Double.class.getClassLoader());
+        this.voteCount = (Integer) in.readValue(Integer.class.getClassLoader());
     }
 
+    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel source) {
+            return new Movie(source);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 }

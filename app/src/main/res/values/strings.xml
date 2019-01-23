@@ -35,4 +35,6 @@
     <string name="play_video">Play Video</string>
     <string name="toolbar_fade">toolbar fade</string>
     <string name="favorite_button">Favorite Button</string>
+    <string name="unknown">Unknown</string>
+    <string name="d_minutes">%d Minutes</string>
 </resources>

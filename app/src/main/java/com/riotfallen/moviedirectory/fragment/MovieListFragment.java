@@ -1,7 +1,9 @@
 package com.riotfallen.moviedirectory.fragment;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,6 +34,7 @@ import java.util.List;
 public class MovieListFragment extends Fragment implements MovieView, FavoriteView {
 
     public static final String POSITION = "position";
+    public static final String LIST_STATE_KEY = "list_state";
 
     public static MovieListFragment newInstance(int position){
         MovieListFragment movieListFragment = new MovieListFragment();
@@ -43,6 +46,7 @@ public class MovieListFragment extends Fragment implements MovieView, FavoriteVi
         return  movieListFragment;
     }
 
+    private RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -60,7 +64,12 @@ public class MovieListFragment extends Fragment implements MovieView, FavoriteVi
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_movie_list, container, false);
+        return inflater.inflate(R.layout.fragment_movie_list, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         recyclerView = view.findViewById(R.id.movieFragmentRecyclerView);
         progressBar = view.findViewById(R.id.movieFragmentProgressBar);
@@ -68,14 +77,26 @@ public class MovieListFragment extends Fragment implements MovieView, FavoriteVi
         position = getArguments() != null ? getArguments().getInt(POSITION, 0) : 0;
         moviePresenter = new MoviePresenter(this);
         favoritePresenter = new FavoritePresenter(getContext(),this);
+        layoutManager = new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false);
         movies = new ArrayList<>();
         favoriteMovies = new ArrayList<>();
-        if (position == 0) {
-            moviePresenter.getNowPlayingMovies(1);
-        } else if(position == 1) {
-            moviePresenter.getUpcomingMovies(1);
+
+        if(savedInstanceState != null){
+            movies = savedInstanceState.getParcelableArrayList(LIST_STATE_KEY);
+            MovieListAdapter movieListAdapter = new MovieListAdapter(getContext(), movies);
+            recyclerView.setLayoutManager(layoutManager);
+            if(position != 2)
+                recyclerView.setAdapter(movieListAdapter);
+            else
+                favoritePresenter.showFavoriteData();
         } else {
-            favoritePresenter.showFavoriteData();
+            if (position == 0) {
+                moviePresenter.getNowPlayingMovies(1);
+            } else if(position == 1) {
+                moviePresenter.getUpcomingMovies(1);
+            } else {
+                favoritePresenter.showFavoriteData();
+            }
         }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -90,8 +111,6 @@ public class MovieListFragment extends Fragment implements MovieView, FavoriteVi
                 }
             }
         });
-
-        return view;
     }
 
     @Override
@@ -127,7 +146,7 @@ public class MovieListFragment extends Fragment implements MovieView, FavoriteVi
         movies.clear();
         movies.addAll(data.getResults());
         MovieListAdapter movieListAdapter = new MovieListAdapter(getContext(), movies);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(movieListAdapter);
     }
 
@@ -143,8 +162,14 @@ public class MovieListFragment extends Fragment implements MovieView, FavoriteVi
         favoriteMovies.clear();
         favoriteMovies.addAll(data);
         FavoriteListAdapter favoriteAdapter = new FavoriteListAdapter(getContext(), favoriteMovies);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(favoriteAdapter);
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putParcelableArrayList(LIST_STATE_KEY, (ArrayList<? extends Parcelable>) movies);
     }
 }

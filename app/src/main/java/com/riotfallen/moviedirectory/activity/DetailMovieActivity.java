@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,39 +20,55 @@ import android.widget.Toast;
 
 import com.riotfallen.moviedirectory.BuildConfig;
 import com.riotfallen.moviedirectory.R;
+import com.riotfallen.moviedirectory.adapter.recyler.SimilarListAdapter;
 import com.riotfallen.moviedirectory.core.db.model.FavoriteMovie;
 import com.riotfallen.moviedirectory.core.model.movie.Movie;
 import com.riotfallen.moviedirectory.core.model.movie.MovieResponse;
+import com.riotfallen.moviedirectory.core.model.similar.Similar;
 import com.riotfallen.moviedirectory.core.model.video.Video;
 import com.riotfallen.moviedirectory.core.presenter.FavoritePresenter;
 import com.riotfallen.moviedirectory.core.presenter.MoviePresenter;
+import com.riotfallen.moviedirectory.core.presenter.SimilarPresenter;
 import com.riotfallen.moviedirectory.core.presenter.VideoPresenter;
 import com.riotfallen.moviedirectory.core.utils.DateUtils;
 import com.riotfallen.moviedirectory.core.view.FavoriteView;
 import com.riotfallen.moviedirectory.core.view.MovieView;
+import com.riotfallen.moviedirectory.core.view.SimilarView;
 import com.riotfallen.moviedirectory.core.view.VideoView;
-import com.riotfallen.moviedirectory.fragment.SimilarFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
-public class DetailMovieActivity extends AppCompatActivity implements MovieView, FavoriteView, VideoView {
+public class DetailMovieActivity extends AppCompatActivity implements
+        MovieView, FavoriteView, VideoView, SimilarView {
 
     public static final String TITLE_MOVIE = "titleMovie";
     public static final String ID_MOVIE = "idMovie";
+    public static final String MOVIE_STATE = "movieState";
+    public static final String VIDEO_STATE = "videoState";
+    public static final String SIMILAR_STATE = "similarState";
 
     private ProgressBar progressBar;
     private NestedScrollView nestedScrollView;
     private ImageView favoriteButton;
     private ImageView playButton;
+    private ProgressBar progressBarFooter;
+    private RecyclerView recyclerView;
 
     private Boolean isFavorite;
 
-    Integer movieId;
+    private Integer movieId;
 
-    Movie movie;
+    private Movie movie;
+    private Video video;
+    private List<Similar> similars;
+
 
     private FavoritePresenter favoritePresenter;
+    private SimilarPresenter similarPresenter;
+
 
     public DetailMovieActivity() {
     }
@@ -69,13 +87,36 @@ public class DetailMovieActivity extends AppCompatActivity implements MovieView,
         favoriteButton = findViewById(R.id.detailActivityFavoriteButton);
         TextView textViewToolbar = findViewById(R.id.detailActivityTextViewToolbar);
         playButton = findViewById(R.id.detailActivityPlayVideo);
+        progressBarFooter = findViewById(R.id.detailMovieActivityProgressDialogFooter);
+        recyclerView = findViewById(R.id.detailMovieActivityRecyclerViewFooter);
 
         textViewToolbar.setText(movieTitle);
-        MoviePresenter presenter = new MoviePresenter(this);
-        presenter.getMovie(movieId);
+
+        if (savedInstanceState != null) {
+            movie = savedInstanceState.getParcelable(MOVIE_STATE);
+            assert movie != null;
+            loadMovieData(movie);
+            if(savedInstanceState.getParcelable(VIDEO_STATE) != null){
+                video = savedInstanceState.getParcelable(VIDEO_STATE);
+                loadVideoData(video);
+            }
+
+            if(savedInstanceState.getParcelableArrayList(SIMILAR_STATE) != null){
+                similars = savedInstanceState.getParcelableArrayList(SIMILAR_STATE);
+                loadSimilarData(similars);
+                progressBarFooter.setVisibility(View.INVISIBLE);
+            }
+
+        } else {
+            MoviePresenter presenter = new MoviePresenter(this);
+            presenter.getMovie(movieId);
+            VideoPresenter videoPresenter = new VideoPresenter(this, this);
+            videoPresenter.getVideo(movieId);
+            similarPresenter = new SimilarPresenter(this);
+            similarPresenter.getSimilar(movieId, 1);
+        }
 
         favoriteState();
-
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,10 +145,7 @@ public class DetailMovieActivity extends AppCompatActivity implements MovieView,
             }
         });
 
-        SimilarFragment fragment = SimilarFragment.newInstance(movieId);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.detailActivityFrameLayout, fragment);
-        transaction.commit();
+
     }
 
     private void favoriteState() {
@@ -149,6 +187,10 @@ public class DetailMovieActivity extends AppCompatActivity implements MovieView,
     @Override
     public void showMovie(Movie data) {
         movie = data;
+        loadMovieData(movie);
+    }
+
+    private void loadMovieData(Movie data) {
         TextView textViewTitle = findViewById(R.id.detailActivityTextViewTitle);
         TextView textViewProduction = findViewById(R.id.detailActivityTextViewProduction);
         TextView textViewYearMovie = findViewById(R.id.detailActivityTextViewYear);
@@ -166,11 +208,11 @@ public class DetailMovieActivity extends AppCompatActivity implements MovieView,
         if (data.getProductionCompanies().size() != 0) {
             textViewProduction.setText(data.getProductionCompanies().get(0).getName());
         } else {
-            textViewProduction.setText("Unknown");
+            textViewProduction.setText(getString(R.string.unknown));
         }
-        textViewRating.setText(data.getVoteAverage().toString());
+        textViewRating.setText(String.format(Locale.getDefault(), "%f", data.getVoteAverage()));
         textViewDescription.setText(data.getOverview());
-        textViewDuration.setText(data.getRuntime() + " Minutes");
+        textViewDuration.setText(String.format(Locale.getDefault(), getString(R.string.d_minutes), data.getRuntime()));
 
         final ImageView imageToolbar = findViewById(R.id.detailActivityToolbarBackground);
         Picasso.get().load(BuildConfig.IMAGE_BASE_URL + data.getBackdropPath()).fit().centerCrop().into(imageToolbar);
@@ -180,7 +222,7 @@ public class DetailMovieActivity extends AppCompatActivity implements MovieView,
             if (i == 0)
                 textViewLanguage.setText(data.getSpokenLanguages().get(i).getName());
             else
-                textViewLanguage.setText(textViewLanguage.getText() + ", " + data.getSpokenLanguages().get(i).getName());
+                textViewLanguage.setText(String.format("%s, %s", textViewLanguage.getText(), data.getSpokenLanguages().get(i).getName()));
         }
 
         for (int i = 0; i < data.getGenres().size(); i++) {
@@ -201,9 +243,6 @@ public class DetailMovieActivity extends AppCompatActivity implements MovieView,
             category.setText(data.getGenres().get(i).getName());
             linearLayoutCategory.addView(category);
         }
-
-        VideoPresenter videoPresenter = new VideoPresenter(this, this);
-        videoPresenter.getVideo(movieId);
     }
 
     @Override
@@ -217,10 +256,15 @@ public class DetailMovieActivity extends AppCompatActivity implements MovieView,
     }
 
     @Override
-    public void showFavoriteData(ArrayList<FavoriteMovie> data) {}
+    public void showFavoriteData(ArrayList<FavoriteMovie> data) { }
 
     @Override
-    public void showVideoData(final Video video) {
+    public void showVideoData(Video video) {
+        this.video = video;
+        loadVideoData(this.video);
+    }
+
+    private void loadVideoData(final Video video){
         playButton.setVisibility(View.VISIBLE);
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,5 +287,50 @@ public class DetailMovieActivity extends AppCompatActivity implements MovieView,
     public void showVideoError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         playButton.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showSimilarLoading() {
+        progressBarFooter.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void hideSimilarLoading() {
+        progressBarFooter.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showSimilarError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showSimilarNotFound() {
+        Toast.makeText(this, getString(R.string.message_similar_not_found), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showSimilarData(List<Similar> data) {
+        similars = data;
+        loadSimilarData(similars);
+
+    }
+
+    private void loadSimilarData(List<Similar> data){
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayout.HORIZONTAL, false);
+        SimilarListAdapter adapter = new SimilarListAdapter(this, data);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(MOVIE_STATE, movie);
+        outState.putParcelable(VIDEO_STATE, video);
+        outState.putParcelableArrayList(SIMILAR_STATE, (ArrayList<? extends Parcelable>) similars);
     }
 }

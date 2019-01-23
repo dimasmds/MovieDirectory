@@ -81,11 +81,7 @@
 
             <include layout="@layout/layout_header_detail_movie" />
             <include layout="@layout/layout_body_detail_movie" />
-
-            <FrameLayout
-                android:id="@+id/detailActivityFrameLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+            <include layout="@layout/layout_footer_detail_movie" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

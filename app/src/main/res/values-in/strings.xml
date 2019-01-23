@@ -35,4 +35,6 @@
     <string name="play_video">Putar video</string>
     <string name="toolbar_fade">toolbar fade</string>
     <string name="favorite_button">Tombol Favorite</string>
+    <string name="unknown">Tidak Dikenal</string>
+    <string name="d_minutes">%d Menit</string>
 </resources>

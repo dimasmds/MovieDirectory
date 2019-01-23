@@ -1,9 +1,12 @@
 package com.riotfallen.moviedirectory.core.model.movie;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Result {
+public class Result implements Parcelable {
 
     @SerializedName("vote_count")
     @Expose
@@ -55,4 +58,44 @@ public class Result {
         return overview;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.voteCount);
+        dest.writeValue(this.id);
+        dest.writeValue(this.video);
+        dest.writeValue(this.voteAverage);
+        dest.writeString(this.title);
+        dest.writeString(this.backdropPath);
+        dest.writeString(this.overview);
+    }
+
+    public Result() {
+    }
+
+    private Result(Parcel in) {
+        this.voteCount = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.video = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.voteAverage = (Double) in.readValue(Double.class.getClassLoader());
+        this.title = in.readString();
+        this.backdropPath = in.readString();
+        this.overview = in.readString();
+    }
+
+    public static final Parcelable.Creator<Result> CREATOR = new Parcelable.Creator<Result>() {
+        @Override
+        public Result createFromParcel(Parcel source) {
+            return new Result(source);
+        }
+
+        @Override
+        public Result[] newArray(int size) {
+            return new Result[size];
+        }
+    };
 }

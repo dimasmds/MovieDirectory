@@ -1,5 +1,6 @@
 package com.riotfallen.moviedirectory.activity;
 
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,6 +34,8 @@ public class SearchActivity extends AppCompatActivity implements MovieView {
 
     private List<Result> movies;
 
+    private EditText editText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,17 +44,22 @@ public class SearchActivity extends AppCompatActivity implements MovieView {
         progressBar = findViewById(R.id.searchActivityProgressBar);
         recyclerView = findViewById(R.id.searchActivityRecyclerView);
 
-        final EditText editText = findViewById(R.id.searchActivityEditText);
+        editText = findViewById(R.id.searchActivityEditText);
 
         movies = new ArrayList<>();
 
-        moviePresenter = new MoviePresenter(this);
+        if (savedInstanceState != null) {
+            movies = savedInstanceState.getParcelableArrayList("movies");
+            loadMovies(movies);
+            editText.setText(savedInstanceState.getString("query"));
+        } else {
+            moviePresenter = new MoviePresenter(this);
+        }
 
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    movies.clear();
                     String query = editText.getText().toString();
                     moviePresenter.searchMovie(query, 1);
                     return true;
@@ -81,7 +89,11 @@ public class SearchActivity extends AppCompatActivity implements MovieView {
 
     @Override
     public void showMovies(MovieResponse data) {
-        movies.addAll(data.getResults());
+        movies = data.getResults();
+        loadMovies(movies);
+    }
+
+    private void loadMovies(List<Result> movies) {
         MovieListAdapter movieListAdapter = new MovieListAdapter(this, movies);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL, false));
         recyclerView.setAdapter(movieListAdapter);
@@ -89,5 +101,12 @@ public class SearchActivity extends AppCompatActivity implements MovieView {
 
     @Override
     public void showMovie(Movie data) {
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("movies", (ArrayList<? extends Parcelable>) movies);
+        outState.putString("query", editText.getText().toString());
     }
 }

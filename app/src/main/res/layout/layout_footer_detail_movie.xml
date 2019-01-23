@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".fragment.SimilarFragment">
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/similarFragmentTextView"
+        android:id="@+id/detailMovieActivityTextViewFooter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/neosans"
@@ -18,8 +16,8 @@
         android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/similarFragmentRecyclerView"
-        android:layout_below="@id/similarFragmentTextView"
+        android:id="@+id/detailMovieActivityRecyclerViewFooter"
+        android:layout_below="@id/detailMovieActivityTextViewFooter"
         android:clipToPadding="false"
         android:paddingStart="16dp"
         android:paddingEnd="0dp"
@@ -27,9 +25,9 @@
         android:layout_height="wrap_content"/>
 
     <ProgressBar
-        android:id="@+id/similarFragmentProgressBar"
+        android:id="@+id/detailMovieActivityProgressDialogFooter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/similarFragmentTextView"
+        android:layout_below="@id/detailMovieActivityTextViewFooter"
         android:layout_centerHorizontal="true"/>
 </RelativeLayout>
