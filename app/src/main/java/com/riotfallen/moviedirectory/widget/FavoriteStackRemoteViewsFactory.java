@@ -86,8 +86,6 @@ public class FavoriteStackRemoteViewsFactory implements RemoteViewsService.Remot
             e.printStackTrace();
         }
 
-        Log.e(TAG, "getViewAt: " + movie.getMovieTitle());
-
         remoteViews.setTextViewText(R.id.wimTextViewTitle, movie.getMovieTitle());
         return remoteViews;
     }
