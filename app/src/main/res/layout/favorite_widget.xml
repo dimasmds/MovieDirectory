@@ -14,7 +14,6 @@
             android:loopViews="true"
             android:layout_weight="9" />
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/banner_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"

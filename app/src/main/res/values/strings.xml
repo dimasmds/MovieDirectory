@@ -16,13 +16,12 @@
     <string name="dummy_rating">⭐️ %.1f</string>
     <string name="voting">(%d voting)</string>
     <string name="dummy_language">English</string>
-    <string name="detail">Detail</string>
     <string name="now_playing">Now Playing</string>
     <string name="upcoming">Upcoming</string>
     <string name="icon_brand">Icon Brand</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
-    <string name="change_language">🇬🇧 \tChange Language</string>
+    <string name="change_language">🇬🇧 \tEnglish</string>
     <string name="favorite">Favorite</string>
     <string name="favorited">Favorited</string>
     <string name="message_fail_favorite">Failed adding to Favorite, Try Again</string>
@@ -37,8 +36,15 @@
     <string name="favorite_button">Favorite Button</string>
     <string name="unknown">Unknown</string>
     <string name="d_minutes">%d Minutes</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
     <string name="no_favorited_movies">No Favorited Movies</string>
     <string name="my_favorite_movie">My Favorite Movie</string>
+    <string name="pref_daily_reminder">com.riotfallen.moviedirectory.pref_daily_reminder</string>
+    <string name="pref_release_reminder">com.riotfallen.moviedirectory.pref_release_reminder</string>
+    <string name="summary_daily">Get daily reminder</string>
+    <string name="summary_release">Get release reminder</string>
+    <string name="daily_content_text">Checkout latest movie for you</string>
+    <string name="setting">Setting</string>
+    <string name="pref_language">com.riotfallen.moviedirectory.pref_language</string>
+    <string name="setting_preference">Setting Preference</string>
+    <string name="notif_new_movie">New Movie has been release !</string>
 </resources>

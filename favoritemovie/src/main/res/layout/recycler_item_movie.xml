@@ -92,7 +92,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/rimLinearLayoutAddFavorite"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -105,7 +104,6 @@
                 android:paddingBottom="7dp">
 
                 <TextView
-                    android:id="@+id/rimTextViewFaviorite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/favorited"

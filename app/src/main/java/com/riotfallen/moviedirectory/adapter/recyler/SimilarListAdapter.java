@@ -31,7 +31,7 @@ public class SimilarListAdapter extends RecyclerView.Adapter<SimilarListAdapter.
     @NonNull
     @Override
     public SimilarListAdapter.SimilarListViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        return new SimilarListViewHolder(LayoutInflater.from(context).inflate(R.layout.recyler_item_similar, viewGroup, false));
+        return new SimilarListViewHolder(LayoutInflater.from(context).inflate(R.layout.recycler_item_similar, viewGroup, false));
     }
 
     @Override

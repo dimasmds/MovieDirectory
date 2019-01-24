@@ -22,4 +22,7 @@
         <item name="cardUseCompatPadding">true</item>
     </style>
 
+    <style name="PreferenceScreen" parent="AppTheme">
+        <item name="android:textColor">@color/textRegularColor</item>
+    </style>
 </resources>

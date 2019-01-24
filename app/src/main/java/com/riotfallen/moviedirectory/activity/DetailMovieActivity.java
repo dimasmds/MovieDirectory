@@ -67,7 +67,6 @@ public class DetailMovieActivity extends AppCompatActivity implements
 
 
     private FavoritePresenter favoritePresenter;
-    private SimilarPresenter similarPresenter;
 
 
     public DetailMovieActivity() {
@@ -112,7 +111,7 @@ public class DetailMovieActivity extends AppCompatActivity implements
             presenter.getMovie(movieId);
             VideoPresenter videoPresenter = new VideoPresenter(this, this);
             videoPresenter.getVideo(movieId);
-            similarPresenter = new SimilarPresenter(this);
+            SimilarPresenter similarPresenter = new SimilarPresenter(this);
             similarPresenter.getSimilar(movieId, 1);
         }
 
@@ -204,13 +203,13 @@ public class DetailMovieActivity extends AppCompatActivity implements
 
         textViewTitle.setText(data.getTitle());
         textViewYearMovie.setText(new DateUtils().dateToString(data.getReleaseDate(),
-                "yyyy-mm-dd", "dd MMMM yyyy"));
+                "yyyy-mm-dd", "dd-mm-yyyy"));
         if (data.getProductionCompanies().size() != 0) {
             textViewProduction.setText(data.getProductionCompanies().get(0).getName());
         } else {
             textViewProduction.setText(getString(R.string.unknown));
         }
-        textViewRating.setText(String.format(Locale.getDefault(), "%f", data.getVoteAverage()));
+        textViewRating.setText(String.format(Locale.getDefault(), "%.1f", data.getVoteAverage()));
         textViewDescription.setText(data.getOverview());
         textViewDuration.setText(String.format(Locale.getDefault(), getString(R.string.d_minutes), data.getRuntime()));
 

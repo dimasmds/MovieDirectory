@@ -29,6 +29,9 @@ public class Result implements Parcelable {
     @SerializedName("overview")
     @Expose
     private String overview;
+    @SerializedName("release_date")
+    @Expose
+    private String releaseDate;
 
     public Integer getVoteCount() {
         return voteCount;
@@ -58,6 +61,10 @@ public class Result implements Parcelable {
         return overview;
     }
 
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -72,9 +79,7 @@ public class Result implements Parcelable {
         dest.writeString(this.title);
         dest.writeString(this.backdropPath);
         dest.writeString(this.overview);
-    }
-
-    public Result() {
+        dest.writeString(this.releaseDate);
     }
 
     private Result(Parcel in) {
@@ -85,6 +90,7 @@ public class Result implements Parcelable {
         this.title = in.readString();
         this.backdropPath = in.readString();
         this.overview = in.readString();
+        this.releaseDate = in.readString();
     }
 
     public static final Parcelable.Creator<Result> CREATOR = new Parcelable.Creator<Result>() {
