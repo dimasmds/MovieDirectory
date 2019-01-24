@@ -49,8 +49,6 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         if (key.equals(getString(R.string.pref_daily_reminder))) {
             if (isOn) {
                 dailyAlarmReceiver.setAlarm(getActivity(),
-                        DailyAlarmReceiver.TYPE_DAILY,
-                        "07:00",
                         getString(R.string.daily_content_text));
             } else {
                 dailyAlarmReceiver.cancelAlarm(getActivity());
@@ -58,7 +56,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             return true;
         } else {
             if(isOn){
-                releaseAlarmReceiver.setAlarm(getActivity(), ReleaseAlarmReceiver.TYPE_RELEASE, "08:00",
+                releaseAlarmReceiver.setAlarm(getActivity(),
                         getString(R.string.notif_new_movie));
             } else {
                 releaseAlarmReceiver.cancelAlarm(getActivity());
